@@ -13,12 +13,12 @@
           "two": 50,
           "three": 75
         },
-        "bluprint": {
-          "desk-0-0": true
-        },
+        "bluprint": {},
         "noOfDeskRow": 5,
         "noOfDeskColumns": 5,
-        "totalDeskCount": 25
+        "totalDeskCount": 25,
+        "maxRow": 6,
+        "maxColumn": 6
       },
       {
         "type": "CC",
