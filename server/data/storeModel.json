@@ -12,6 +12,9 @@
       {
         "hallName": "ITP-S12",
         "studentsPerDesk": 1,
+        "blueprint": {
+          "desk-0-0": "20CSR001"
+        },
         "startingRollNo": [
           {
             "department": "CSE",

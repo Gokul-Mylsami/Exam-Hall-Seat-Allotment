@@ -8,7 +8,8 @@
           "lateral": 4,
           "rollNoPrefix": "20CSR",
           "lateralRollNoPrefix": "20CSL",
-          "joinedYear": 2020
+          "joinedYear": 2020,
+          "notEligible": [14]
         }
       }
     ]

@@ -13,6 +13,9 @@
           "two": 50,
           "three": 75
         },
+        "bluprint": {
+          "desk-0-0": true
+        },
         "noOfDeskRow": 5,
         "noOfDeskColumns": 5,
         "totalDeskCount": 25

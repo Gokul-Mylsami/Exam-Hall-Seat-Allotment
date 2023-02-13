@@ -3,7 +3,7 @@ import React from 'react'
 
 const NewBooking = () => {
     return (
-        <div>NewBooking</div>
+        <div style={{ marginLeft: "25rem" }}>NewBooking</div>
     )
 }
 
