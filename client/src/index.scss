@@ -13,6 +13,15 @@ html {
 :root {
   --color-primary: #fab005;
   --color-secondary: #fcc419;
+  --color-teritary: #ffd43b;
   --color-white: #fff;
   --color-black: #333;
+}
+
+.notification .title {
+  font-size: 1.6rem !important;
+}
+
+.notification .message {
+  font-size: 1.4rem !important;
 }

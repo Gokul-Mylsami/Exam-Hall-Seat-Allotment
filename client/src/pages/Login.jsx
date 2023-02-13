@@ -1,42 +1,69 @@
-import React from "react";
+import React, { useState } from 'react'
+import './../styles/pages/AdminLogin.scss'
 import logo from "../assests/logo.png";
-import "./../styles/Login.scss";
+import ButtonPrimary from '../components/ButtonPrimary';
+import { NotificationManager } from 'react-notifications';
 
 const Login = () => {
-  return (
-    <div id="login-container">
-      <div className="navbar-login">
-        <img src={logo} alt="KEC LOGO" className="navbar-logo" />
-        <p className="navbar-logo-name">Kongu Engineering College</p>
-      </div>
-      <div className="login-form-container">
-        <form className="login-form">
-          <div className="login-heading-des">
-            <h1 className="login-title">Login</h1>
-            <p className="login-des">
-              Welcome back! Login to access the KEC Exam Booking
-            </p>
-          </div>
-          <div className="login-elements">
-            <input
-              className="login-text-field"
-              placeholder="Email"
-              type={"email"}
-              required
-            />
-          </div>
-          <div className="login-elements">
-            <input
-              className="login-text-field"
-              placeholder="Password"
-              type={"password"}
-              required
-            />
-          </div>
-        </form>
-      </div>
-    </div>
-  );
-};
 
-export default Login;
+    const submitHandler = (e) => {
+        e.preventDefault()
+        setDisabled(true)
+        NotificationManager.error("Roll No Does not exist", "Error", 5000)
+        console.log("Submitted")
+        setDisabled(false)
+    }
+
+    const [loginDetails, setLoginDetails] = useState({
+        rollNo: ""
+    })
+
+    const [disabled, setDisabled] = useState(false)
+
+    const changeHandler = (e) => {
+        setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value })
+    }
+
+
+    return (
+        <div id="login-container"> <div className="navbar-login">
+            <img src={logo} alt="KEC LOGO" className="navbar-logo" />
+            <p className="navbar-logo-name">Kongu Engineering College</p>
+        </div>
+            <div className="login-form-container">
+                <form className="login-form" onSubmit={submitHandler}>
+                    <div className="login-heading-des">
+                        <h1 className="login-title">Login</h1>
+                        <p className="login-des">
+                            Welcome back!
+                        </p>
+                    </div>
+                    <div className="login-elements">
+                        <input
+                            className="login-text-field"
+                            placeholder="Roll No"
+                            name="rollNo"
+                            type={"text"}
+                            value={loginDetails.rollNo}
+                            required
+                            onChange={changeHandler}
+                        />
+                    </div>
+                    <div className="login-button-container">
+                        <ButtonPrimary type={'submit'} style={{ width: "30rem" }} disabled={disabled}>
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="login-btn-icon">
+                                    <path fillRule="evenodd" d="M12 2.25c-5.385 0-9.75 4.365-9.75 9.75s4.365 9.75 9.75 9.75 9.75-4.365 9.75-9.75S17.385 2.25 12 2.25zm4.28 10.28a.75.75 0 000-1.06l-3-3a.75.75 0 10-1.06 1.06l1.72 1.72H8.25a.75.75 0 000 1.5h5.69l-1.72 1.72a.75.75 0 101.06 1.06l3-3z" clipRule="evenodd" />
+                                </svg>
+                                <p className="login-btn-text">See Exam Hall</p>
+                            </>
+                        </ButtonPrimary>
+                    </div>
+                </form>
+            </div>
+
+        </div>
+    )
+}
+
+export default Login
