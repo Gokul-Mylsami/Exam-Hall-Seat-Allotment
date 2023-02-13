@@ -1,0 +1,27 @@
+[
+  {
+    "year": 2020,
+    "name": "CAT-2",
+    "subject": "PCD",
+    "session": "FN",
+    "count": 250,
+    "ccNeeded": false,
+    "departmentsAllowed": ["CSE", "IT"],
+    "halls": [],
+    "classes": [
+      {
+        "hallName": "ITP-S12",
+        "studentsPerDesk": 1,
+        "startingRollNo": [
+          {
+            "department": "CSE",
+            "startingNumber": 1,
+            "endingNumber": 35,
+            "year": 2020,
+            "class": "A"
+          }
+        ]
+      }
+    ]
+  }
+]

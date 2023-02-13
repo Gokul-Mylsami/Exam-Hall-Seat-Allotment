@@ -1,0 +1,31 @@
+[
+  {
+    "depatment": "CSE",
+    "noOfHalls": 15,
+    "noOfCC": 8,
+    "halls": [
+      {
+        "type": "CL",
+        "name": "ITP-S12",
+        "venue": "IT PARK - CSE 2nd Floor - S12",
+        "capacity": {
+          "one": 25,
+          "two": 50,
+          "three": 75
+        },
+        "noOfDeskRow": 5,
+        "noOfDeskColumns": 5,
+        "totalDeskCount": 25
+      },
+      {
+        "type": "CC",
+        "name": "ITP-CC3",
+        "venue": "IT PARK - CSE 1nd Floor - CC03",
+        "noOfComputers": 40,
+        "noOfDeskRow": 4,
+        "noOfDeskColumns": 9,
+        "additionalComputers": 4
+      }
+    ]
+  }
+]

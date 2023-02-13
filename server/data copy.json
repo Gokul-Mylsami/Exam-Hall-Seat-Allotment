@@ -1,0 +1,16 @@
+[
+  {
+    "depatment": "CSE",
+    "classes": [
+      {
+        "2020-CSE-A": {
+          "noOfStudents": 67,
+          "lateral": 4,
+          "rollNoPrefix": "20CSR",
+          "lateralRollNoPrefix": "20CSL",
+          "joinedYear": 2020
+        }
+      }
+    ]
+  }
+]
