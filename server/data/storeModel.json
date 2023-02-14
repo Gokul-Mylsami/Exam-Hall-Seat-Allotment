@@ -4,10 +4,10 @@
     "name": "CAT-2",
     "subject": "PCD",
     "session": "FN",
-    "count": 250,
+    "count": 67,
     "ccNeeded": false,
     "departmentsAllowed": ["CSE", "IT"],
-    "halls": [],
+    "halls": ["ITP-S12", "ITP-S13"],
     "classes": [
       {
         "hallName": "ITP-S12",
