@@ -16,15 +16,15 @@ const NewBooking = () => {
   // const [bluePrint, setBluePrint] = useState({})
   // const [name, setName] = useState("");
   // temporarily
-  const [department, setDepartment] = useState("CSE")
-  const [name, setName] = useState("ITP-S12");
-  const [type, setType] = useState("CC");
-  const [venue, setVenue] = useState("KEC-CSE-S12");
-  const [maxRow, setMaxRow] = useState("3");
-  const [maxColumn, setMaxColumn] = useState("3");
+  const [department, setDepartment] = useState("");
+  const [name, setName] = useState("");
+  const [type, setType] = useState("");
+  const [venue, setVenue] = useState("");
+  const [maxRow, setMaxRow] = useState("");
+  const [maxColumn, setMaxColumn] = useState("");
   const [unselectedDesks, setUnSelectedDesks] = useState([]);
   const [showDesks, setShowDesks] = useState(false);
-  const [bluePrint, setBluePrint] = useState({})
+  const [bluePrint, setBluePrint] = useState({});
 
   const generateBluePrint = () => {
     // console.log("hi");
@@ -33,79 +33,65 @@ const NewBooking = () => {
   const saveData = async () => {
     console.log(type);
 
-    // ref
-    const da = {
-      "type": "CC",
-      "name": "ITP-CC3",
-      "venue": "IT PARK - CSE 1nd Floor - CC03",
-      "noOfComputers": 40,
-      "noOfDeskRow": 4,
-      "noOfDeskColumns": 9,
-      "additionalComputers": 4,
-      "bluePrint": {
-        "desk-0-0": true,
-        "desk-0-1": true,
-        "desk-0-2": false,
-        "desk-0-3": false,
-        "desk-0-4": true,
-        "desk-0-5": true,
-        "desk-1-0": true,
-        "desk-1-1": true,
-        "desk-1-2": true,
-        "desk-1-3": true,
-        "desk-1-4": true,
-        "desk-1-5": true,
-        "desk-2-0": true,
-        "desk-2-1": true,
-        "desk-2-2": true,
-        "desk-2-3": true,
-        "desk-2-4": true,
-        "desk-2-5": true,
-        "desk-3-0": true,
-        "desk-3-1": true,
-        "desk-3-2": true,
-        "desk-3-3": true,
-        "desk-3-4": true,
-        "desk-3-5": true,
-        "desk-4-0": true,
-        "desk-4-1": true,
-        "desk-4-2": true,
-        "desk-4-3": true,
-        "desk-4-4": true,
-        "desk-4-5": true,
-        "desk-5-0": true,
-        "desk-5-1": true,
-        "desk-5-2": true,
-        "desk-5-3": true,
-        "desk-5-4": true,
-        "desk-5-5": true
-      }
-    }
-    const save = type == "CC" ? {
-      name, type, venue, noOfDeskRow: maxRow, noOfDeskColumns: maxColumn, bluePrint, capacity: { one: maxRow * maxColumn - unselectedDesks.length }, noOfComputers: maxColumn * maxRow
-    } : type == "CL" ? {
-      name, type, venue, noOfDeskRow: maxRow, noOfDeskColumns: maxColumn, bluePrint, capacity: { one: maxRow * maxColumn - unselectedDesks.length }, totalDeskCount: maxColumn * maxRow
-    } : null;
+    const save =
+      type == "CC"
+        ? {
+            name,
+            type,
+            venue,
+            noOfDeskRow: maxRow,
+            noOfDeskColumns: maxColumn,
+            bluePrint,
+            capacity: { one: maxRow * maxColumn - unselectedDesks.length },
+            noOfComputers: maxColumn * maxRow,
+          }
+        : type == "CL"
+        ? {
+            name,
+            type,
+            venue,
+            noOfDeskRow: maxRow,
+            noOfDeskColumns: maxColumn,
+            bluePrint,
+            capacity: { one: maxRow * maxColumn - unselectedDesks.length },
+            totalDeskCount: maxColumn * maxRow,
+          }
+        : null;
     console.log(save);
     const response = await fetch("http://localhost:8000/v1/halls/add", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ department, halls: save }),
     })
-      .then(async doc => {
-        console.log(await doc.json());
-      }).catch(err => {
-        console.log(err);
+      .then(async (doc) => {
+        let json = await doc.json();
+        console.log(json.dev.error.statusCode);
+        if (json.dev.error.statusCode === 400) {
+          NotificationManager.error("Classroom Already Exist", "Error", 5000);
+        }
       })
-  }
+      .catch((err) => {
+        console.log(err.dev);
+      });
+  };
   const bookingTypes = [
     { label: "Classroom", value: "CL" },
     { label: "Computer Center (CC)", value: "CC" },
   ];
 
+  const detpartmentValues = [
+    {
+      label: "CSE",
+      value: "Computer Science and Engineering ",
+    },
+
+    {
+      label: "IT",
+      value: "Information Technology",
+    },
+  ];
+
   const submitHandler = () => {
-
-
     for (let i = 0; i < maxRow; i++) {
       for (let j = 0; j < maxColumn; j++) {
         const tempBlueprint = bluePrint;
@@ -117,7 +103,7 @@ const NewBooking = () => {
         setBluePrint(tempBlueprint);
       }
     }
-    // console.log(bluePrint);
+
     saveData();
   };
 
@@ -136,6 +122,18 @@ const NewBooking = () => {
               setName(e.target.value);
             }}
           />
+        </div>
+        <div className="input-field-container">
+          <label className="input-field-label">Department :</label>
+          <div className="select-field-container">
+            <Select
+              options={detpartmentValues}
+              name="type"
+              onChange={(e) => {
+                setDepartment(e.value);
+              }}
+            />
+          </div>
         </div>
         <div className="input-field-container">
           <label className="input-field-label">Type :</label>
@@ -169,10 +167,12 @@ const NewBooking = () => {
             type={"number"}
             onChange={(e) => {
               setShowDesks(false);
-              if (e.target.value <= 20) setMaxRow(e.target.value);
-              else {
+
+              if (e.target.value <= 20 && !(e.target.value < 0)) {
+                setMaxRow(e.target.value);
+              } else {
                 NotificationManager.warning(
-                  "Value should be less than 20",
+                  "Value should between 0 to 20 only",
                   "Warning",
                   5000
                 );
@@ -189,7 +189,8 @@ const NewBooking = () => {
             type={"number"}
             onChange={(e) => {
               setShowDesks(false);
-              if (e.target.value <= 20) setMaxColumn(e.target.value);
+              if (e.target.value <= 20 && !(e.target.value < 0))
+                setMaxColumn(e.target.value);
               else {
                 NotificationManager.warning(
                   "Value should be less than 20",
