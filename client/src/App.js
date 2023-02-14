@@ -11,7 +11,7 @@ const App = () => {
       <Route path="/login" element={<Login />} />
       <Route path="/admin/login" element={<AdminLogin />} />
       <Route
-        path="/newbook"
+        path="/"
         element={
           <Sidebar>
             <NewBooking />
