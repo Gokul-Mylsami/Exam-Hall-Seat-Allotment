@@ -9,7 +9,13 @@ const morgan = require("morgan");
 // Start express app
 const app = express();
 app.use(bodyParser.json());
-app.use(cors());
+const corsOptions = {
+  origin: "*",
+  methods: "GET,PUT,POST,DELETE",
+  allowedHeaders: "Content-Type",
+};
+
+app.use(cors(corsOptions));
 app.use(morgan("tiny"));
 app.use("/v1", route);
 // 3) ROUTES

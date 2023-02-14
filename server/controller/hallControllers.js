@@ -3,6 +3,7 @@ const Halls = require("../model/hallsModel");
 const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const { createOne } = require("./factory.js");
+const ClassModel = require("../model/classModel");
 exports.getAllHalls = catchAsync(async (req, res, next) => {
   const doc = Halls.find({})
     .populate("halls")
@@ -19,65 +20,57 @@ exports.getAllHalls = catchAsync(async (req, res, next) => {
     });
 });
 exports.addHall = catchAsync(async (req, res, next) => {
-  const { department, noOfHalls, noOfCC, halls } = req.body;
+  const { department, halls } = req.body;
   const selectedHalls = await Halls.findOne({ department });
   if (selectedHalls) {
-    const newHallIds = [];
-    const errorHallIds = [];
-
     // console.log(selectedHalls);
-    const data = halls.map(async (element) => {
-      element.department = selectedHalls._id;
-      console.log(element);
-      const data = await SeperateHalls.create(element)
-        .then(async (halls) => {
-          await Halls.updateOne(
-            { department },
-            { $push: { halls: halls._id } }
-          );
-        })
-        .catch((err) => {
-          console.log(err);
-          errorHallIds.push(halls._id);
+    halls.department = selectedHalls._id;
+    console.log(halls);
+    const data = await SeperateHalls.create(halls)
+      .then(async (halls) => {
+        await Halls.updateOne({ department }, { $push: { halls: halls._id } });
+      })
+      .then((data) => {
+        res.json({
+          status: "success",
+          test: "123",
         });
-      return data;
-    });
-    return res.json({ status: "success", newHallIds, errorHallIds, data });
+      })
+      .catch((err) => {
+        console.log(err);
+        return next(new AppError(err.message, 400));
+      });
   } else {
     const hall = await Halls.create({
       department,
     })
       .then(async (result) => {
-        const newHallIds = [];
-        const errorHallIds = [];
-
         // console.log(selectedHalls);
-        const data = halls.map(async (element) => {
-          element.department = result._id;
-          // console.log(element);
-          const data = await SeperateHalls.create(element)
-            .then(async (halls) => {
-              await Halls.updateOne(
-                { department },
-                { $push: { halls: halls._id } }
-              );
-            })
-            .catch((err) => {
-              console.log(err);
-              errorHallIds.push(halls._id);
-            });
-          return data;
+        halls.department = result._id;
+        // console.log(element);
+        const data = await SeperateHalls.create(halls);
+        return data;
+      })
+      .then(async (halls) => {
+        await Halls.updateOne({ department }, { $push: { halls: halls._id } });
+      })
+      .then(() => {
+        res.json({
+          status: "success",
         });
       })
       .catch((err) => {
-        console.log(err);
+        return next(new AppError(err.message, 400));
       });
-
-    res.status(201).json({
-      status: "success",
-      data: {
-        data: hall,
-      },
-    });
   }
+});
+exports.getStudentHallInfo = catchAsync(async (req, res, next) => {
+  const { rollnumber } = req.params;
+  const query = rollnumber.substring(0, 5);
+  const data = await ClassModel.find({
+    $or: [{ regularRollNoPrefix: query }, { lateralRollNoPrefix: query }],
+  });
+  res.json({
+    data,
+  });
 });

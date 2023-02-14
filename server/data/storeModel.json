@@ -7,8 +7,9 @@
     "count": 67,
     "ccNeeded": false,
     "departmentsAllowed": ["CSE", "IT"],
-    "halls": ["ITP-S12", "ITP-S13"],
-    "classes": [
+    "classAttendingExam": [""],
+    "hallsUsed": ["ITP-S12", "ITP-S13"],
+    "hallAssigned": [
       {
         "hallName": "ITP-S12",
         "studentsPerDesk": 1,

@@ -28,11 +28,9 @@ const SeperateHallSchema = new mongoose.Schema({
       return this.type === "CL";
     },
   },
-  blueprint: {
+  bluePrint: {
     type: Object,
-    required: function () {
-      return this.type === "CL";
-    },
+    required: true,
   },
   noOfDeskRow: {
     type: Number,
@@ -59,9 +57,6 @@ const SeperateHallSchema = new mongoose.Schema({
   },
   additionalComputers: {
     type: Number,
-    required: function () {
-      return this.type === "CC";
-    },
   },
 });
 // Add a pre-save hook
