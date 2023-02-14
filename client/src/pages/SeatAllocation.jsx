@@ -4,14 +4,14 @@ import "./../styles/pages/SeatAllocation.scss";
 import hallDetails from "./../hallModel.json";
 
 const SeatAllocation = () => {
-  let totalSudents = 67;
+  let totalSudents = 75;
   let halls = [
     { department: "CSE", hall: "ITP-S12" },
     { department: "CSE", hall: "ITP-S13" },
+    { department: "CSE", hall: "ITP-S14" },
   ];
 
   let venueBlueprints = [];
-  let venueAllocatedBluePrints = [];
 
   halls.map((hall) => {
     hallDetails.map((singleHallFullDetail) => {
@@ -33,38 +33,66 @@ const SeatAllocation = () => {
     });
   });
 
-  console.log(venueBlueprints);
-
-  //arrage the hall
   let desks = [];
-  let count = 0;
-  let flag = 1;
-  venueBlueprints.map((singleVenue) => {
-    let row = singleVenue.row;
-    let column = singleVenue.column;
-    for (let i = 0; i < row; i++) {
-      let rowDesks = [];
-      if (totalSudents <= 0) break;
-      for (let j = 0; j < column; j++) {
-        if (totalSudents <= 0) break;
-        if (singleVenue.blueprint[`desk-${j}-${i}`]) {
-          count += 1;
-          totalSudents--;
+  let startingRollNo = 1;
+  venueBlueprints.map((temp) => {
+    const rowValue = temp.row;
+    const colValue = temp.column;
+    const arr = [];
+    for (let i = 0; i < colValue; i++) {
+      arr[i] = [];
 
-          rowDesks.push(
-            <div key={`desk-${j}-${i}`} className="desk">
-              {}
-            </div>
-          );
-        } else {
-          console.log(`desk-${j}-${i}`);
+      for (let j = 0; j < rowValue; j++) {
+        arr[i][j] = 0;
+      }
+    }
+
+    for (let i = 0; i < colValue; i++) {
+      if (startingRollNo > totalSudents) {
+        break;
+      }
+      for (let j = 0; j < rowValue; j++) {
+        if (temp["blueprint"][`desk-${j}-${i}`] === false) {
+          continue;
+        }
+        arr[j][i] = startingRollNo;
+        startingRollNo++;
+
+        if (startingRollNo > totalSudents) {
+          break;
         }
       }
-      desks.push(rowDesks);
+
+      if (startingRollNo > totalSudents) {
+        break;
+      }
+    }
+
+    for (let i = 0; i < rowValue; i++) {
+      let rowDesk = [];
+
+      for (let j = 0; j < colValue; j++) {
+        if (arr[i][j] === 0) {
+          rowDesk.push(<div className="desk"></div>);
+        } else {
+          rowDesk.push(
+            <div className="desk">
+              <p>{temp.name}</p>
+              <h1>{"20CSR0" + arr[i][j]}</h1>
+            </div>
+          );
+        }
+      }
+
+      desks.push(
+        <div className="desk-row" key={`${Math.random()}-desk${i}`}>
+          {rowDesk}
+        </div>
+      );
     }
   });
-  console.log(count);
-  return <div id="seat-allocation-section">{desks}</div>;
+
+  return <div>{desks}</div>;
 };
 
 export default SeatAllocation;

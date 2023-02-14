@@ -60,6 +60,8 @@ const SelectDesks = ({
       </div>
     );
   }
+
+  console.log(desks);
   return <>{desks}</>;
 };
 
