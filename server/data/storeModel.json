@@ -6,6 +6,8 @@
     "session": "FN",
     "count": 67,
     "ccNeeded": false,
+    "date": "13-2-2023",
+    "blacklistedStudents": "",
     "departmentsAllowed": ["CSE", "IT"],
     "classAttendingExam": [""],
     "hallsUsed": ["ITP-S12", "ITP-S13"],
