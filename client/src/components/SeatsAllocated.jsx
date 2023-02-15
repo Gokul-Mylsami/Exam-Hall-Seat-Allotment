@@ -2,14 +2,23 @@ import React, { useEffect, useState } from "react";
 import "./../styles/pages/NewBooking.scss";
 import Loading from "./Loading";
 import ButtonPrimary from "../components/ButtonPrimary";
-import NotificationManager from 'react-notifications'
-const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name }) => {
+import NotificationManager from "react-notifications";
+const SeatsAllocated = ({
+  halls = [],
+  totalSudents,
+  session,
+  subject,
+  year,
+  name,
+  rollNumbers,
+}) => {
+  let k = 0;
   let venueBlueprints = [];
   const [hallDetails, setHallDetails] = useState([]);
   const [storeData, setStoreData] = useState([]);
   function removeDuplicates(arr) {
     let seen = new Set();
-    return arr.filter(item => {
+    return arr.filter((item) => {
       const stringified = JSON.stringify(item);
       if (seen.has(stringified)) {
         return false;
@@ -20,23 +29,33 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name
   }
   const saveHandler = async (e) => {
     e.preventDefault();
-    const saveData = removeDuplicates(storeData)
-    console.log(saveData);
+    console.log("Hi");
+    const saveData = removeDuplicates(storeData);
     const response = await fetch("http://localhost:8000/v1/halls/store", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(saveData),
-    })
-      .then(async (doc) => {
-        let json = await doc.json();
-        console.log(json.dev.error.statusCode);
-        if (json.dev.error.statusCode === 400) {
-          NotificationManager.error("Classroom Already Exist", "Error", 5000);
-        }
-      })
-      .catch((err) => {
-        console.log(err.dev);
-      });
+    });
+    // .then(async (doc) => {
+    //   let json = await doc.json();
+    //   console.log(json.dev.error.statusCode);
+    //   if (json.dev.error.statusCode === 400) {
+    //     NotificationManager.error("Classroom Already Exist", "Error", 5000);
+    //   }
+    //   console.log("Hi");
+    // })
+    // .catch((err) => {
+    //   console.log(err);
+    // });
+
+    const json = await response.json();
+    console.log(json);
+    if (json.status === "success") {
+      NotificationManager.success("Successfully Allocated !", "Success", 5000);
+    } else {
+      // NotificationManager.error("Error in Allocating", "Error", 5000);
+      console.log("error");
+    }
   };
 
   useEffect(() => {
@@ -56,7 +75,6 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name
       hallDetails.map((singleHallFullDetail) => {
         if (hall.department === singleHallFullDetail.department) {
           let avaliableHalls = singleHallFullDetail.halls;
-          console.log();
           avaliableHalls.map((singleHall) => {
             if (hall.hall === singleHall.name) {
               venueBlueprints.push({
@@ -65,7 +83,6 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name
                 capacity: singleHall.totalDeskCount,
                 row: singleHall.noOfDeskRow,
                 column: singleHall.noOfDeskColumns,
-
               });
             }
           });
@@ -73,10 +90,8 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name
       });
     });
 
-    console.log(venueBlueprints);
     let startingRollNo = 1;
     venueBlueprints.map((temp) => {
-      console.log(temp["blueprint"]);
       const rowValue = temp.row;
       const colValue = temp.column;
       const arr = [];
@@ -96,7 +111,7 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name
           if (temp["blueprint"][`desk-${j}-${i}`] === false) {
             continue;
           }
-          arr[j][i] = startingRollNo;
+          arr[j][i] = rollNumbers[k++];
           storeData.push({
             table: `desk-${j + 1}-${i + 1}`,
             rollNo:
@@ -131,7 +146,7 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name
             rowDesk.push(
               <div className="desk">
                 <p>{temp.name}</p>
-                <p className="allocated-seat">{"20CSR0" + arr[i][j]}</p>
+                <p className="allocated-seat">{arr[i][j]}</p>
               </div>
             );
           }

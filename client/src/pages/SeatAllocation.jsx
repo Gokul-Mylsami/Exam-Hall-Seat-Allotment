@@ -39,6 +39,7 @@ const SeatAllocation = () => {
   const [totalStudents, setTotalStudents] = useState(0);
   const [classData, setClassData] = useState([]);
   const [hallCapacity, setHallCapacity] = useState(0);
+  const [rollNumbers, setRollNumbers] = useState([]);
 
   const selectChangeHandler = (e, name) => {
     setInputaData({ ...inputDatas, [name]: e.value });
@@ -128,11 +129,33 @@ const SeatAllocation = () => {
 
   useEffect(() => {
     let count = 0;
+    let temp = [];
     classData.map((singleData) => {
       if (inputDatas.classes.includes(singleData._id)) {
         count += singleData.noOfStudents;
+
+        console.log(singleData);
+
+        for (
+          let i = singleData.reqularStartingRollnumber;
+          i < singleData.reqularStartingRollnumber + singleData.reqular;
+          i++
+        ) {
+          if (!singleData.notEligible.includes(i)) {
+            if (i < 10) {
+              temp.push(singleData.regularRollNoPrefix + "00" + i);
+            } else if (i < 100) {
+              temp.push(singleData.regularRollNoPrefix + "0" + i);
+            } else {
+              temp.push(singleData.regularRollNoPrefix + i);
+            }
+          }
+        }
       }
+      setRollNumbers(temp);
     });
+
+    setRollNumbers(temp);
 
     setTotalStudents(count);
   }, [inputDatas.classes]);
@@ -247,6 +270,7 @@ const SeatAllocation = () => {
             subject={inputDatas.subject}
             name={inputDatas.name}
             year={inputDatas.year}
+            rollNumbers={rollNumbers}
           />
         </div>
       ) : (
