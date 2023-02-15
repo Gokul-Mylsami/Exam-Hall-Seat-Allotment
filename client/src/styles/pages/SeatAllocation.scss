@@ -14,12 +14,30 @@
     font-size: 1.2rem;
     font-weight: bold;
   }
-  .form-input-container {
-    font-size: large;
+
+  .form-label {
+    font-size: 1.8rem;
   }
+
   .form-input-container {
     display: flex;
     justify-content: space-between;
-    width: 40rem;
+    width: 70rem;
+    margin-top: 2rem;
+  }
+
+  .form-select-container {
+    width: 30rem;
+  }
+
+  .form-input {
+    width: 30rem;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+  }
+
+  .class-info {
+    margin-top: 4rem;
   }
 }
