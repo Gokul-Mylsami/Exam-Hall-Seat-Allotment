@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import AdminLogin from "./pages/AdminLogin";
+import Home from "./pages/Home";
 import Login from "./pages/Login";
 import NewBooking from "./pages/NewBooking";
 import NewClass from "./pages/NewClass";
@@ -11,7 +12,15 @@ const App = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-
+      <Route path="/admin/login" element={<AdminLogin />} />
+      <Route
+        path="/"
+        element={
+          <Sidebar>
+            <Home />
+          </Sidebar>
+        }
+      />
       <Route
         path="/newHall"
         element={

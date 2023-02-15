@@ -3,14 +3,31 @@ import "./../styles/pages/AdminLogin.scss";
 import logo from "../assests/logo.png";
 import ButtonPrimary from "../components/ButtonPrimary";
 import { NotificationManager } from "react-notifications";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const submitHandler = (e) => {
     e.preventDefault();
-    setDisabled(true);
-    NotificationManager.error("Roll No Does not exist", "Error", 5000);
-    console.log("Submitted");
-    setDisabled(false);
+    // setDisabled(true);
+    // NotificationManager.error("Roll No Does not exist", "Error", 5000);
+    // console.log("Submitted");
+    // setDisabled(false);
+
+    const fetchData = async () => {
+      const response = await fetch(
+        `http://localhost:8000/v1/halls/info/${loginDetails.rollNo}`
+      );
+
+      const json = await response.json();
+      console.log(json.data);
+      if (json.data.length > 0) {
+        setCardData(json.data);
+      } else {
+        NotificationManager.error("Roll No Does not exist", "Error", 5000);
+      }
+    };
+
+    fetchData();
   };
 
   const [loginDetails, setLoginDetails] = useState({
@@ -18,6 +35,8 @@ const Login = () => {
   });
 
   const [disabled, setDisabled] = useState(false);
+  const [cardData, setCardData] = useState([]);
+  const [showHall, setShowHall] = useState(true);
 
   const changeHandler = (e) => {
     setLoginDetails({ ...loginDetails, [e.target.name]: e.target.value });
@@ -72,9 +91,24 @@ const Login = () => {
           </div>
         </form>
       </div>
-      <div className="login-heading-des">
-        <div className="card"></div>
-      </div>
+      {showHall && (
+        <div className="login-heading-des">
+          <div>
+            {cardData.map((card) => {
+              return (
+                <div className="card">
+                  <p className="title">Name : {card.name}</p>
+                  <p className="title">Subject : {card.subject}</p>
+                  <p className="title">Hall : {card.hall}</p>
+                  <p className="title">Table : {card.table}</p>
+                </div>
+              );
+            })}
+
+            <div></div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
