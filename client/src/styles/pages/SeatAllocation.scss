@@ -7,4 +7,15 @@
     margin: rem;
     cursor: pointer;
   }
+
+  .allocated-seat {
+    font-size: 1.2rem;
+    font-weight: bold;
+  }
+
+  .form-input-container {
+    display: flex;
+    justify-content: space-between;
+    width: 30rem;
+  }
 }
