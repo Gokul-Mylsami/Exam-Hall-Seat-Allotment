@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import AdminLogin from "./pages/AdminLogin";
 import Login from "./pages/Login";
 import NewBooking from "./pages/NewBooking";
+import NewClass from "./pages/NewClass";
 import SeatAllocation from "./pages/SeatAllocation";
 
 const App = () => {
@@ -16,6 +17,14 @@ const App = () => {
         element={
           <Sidebar>
             <NewBooking />
+          </Sidebar>
+        }
+      />
+      <Route
+        path="/newClass"
+        element={
+          <Sidebar>
+            <NewClass />
           </Sidebar>
         }
       />

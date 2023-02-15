@@ -1,4 +1,6 @@
 #seat-allocation-section {
+  margin: 0 auto;
+  width: 100%;
   .desk {
     display: inline-block;
     width: 6rem;
@@ -12,10 +14,23 @@
     font-size: 1.2rem;
     font-weight: bold;
   }
-
+  .form-input-container {
+    font-size: large;
+  }
   .form-input-container {
     display: flex;
     justify-content: space-between;
-    width: 30rem;
+    width: 40rem;
+    margin: 40px;
+  }
+  .form-select-container {
+    width: 20rem;
+    border-radius: 5px;
+  }
+  input {
+    height: 25px;
+    border-color: aliceblue;
+    border-width: 0.5px;
+    width: 20rem;
   }
 }
