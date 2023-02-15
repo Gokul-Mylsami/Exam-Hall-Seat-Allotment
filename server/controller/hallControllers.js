@@ -4,6 +4,7 @@ const AppError = require("../utils/appError");
 const catchAsync = require("../utils/catchAsync");
 const { createOne } = require("./factory.js");
 const ClassModel = require("../model/classModel");
+const storeDataModel = require("../model/storeData");
 exports.getAllHalls = catchAsync(async (req, res, next) => {
   const doc = Halls.find({})
     .populate("halls")
@@ -71,6 +72,14 @@ exports.getStudentHallInfo = catchAsync(async (req, res, next) => {
     $or: [{ regularRollNoPrefix: query }, { lateralRollNoPrefix: query }],
   });
   res.json({
+    data,
+  });
+});
+
+exports.storeHallData = catchAsync(async (req, res, next) => {
+  const data = storeDataModel.create(req.body);
+  res.json({
+    status: "success",
     data,
   });
 });
