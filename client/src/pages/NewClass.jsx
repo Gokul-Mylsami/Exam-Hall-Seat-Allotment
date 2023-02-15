@@ -70,7 +70,7 @@ const NewClass = () => {
       //         "notEligible": [
       //             14
       //         ]
-    }
+    };
     console.log(save);
     // const response = await fetch("http://localhost:8000/v1/class/add", {
     //   method: "POST",
@@ -183,9 +183,9 @@ const NewClass = () => {
             name="Lateral"
             value={Lateral}
             onChange={(e) => {
-              setLateral(e.target.value)
-              console.log("asd", Total, Lateral, Regular)
-              setTotal(parseInt(Lateral) + parseInt(Regular))
+              setLateral(e.target.value);
+              console.log("asd", Total, Lateral, Regular);
+              setTotal(parseInt(Lateral) + parseInt(Regular));
             }}
           />
         </div>
@@ -198,11 +198,10 @@ const NewClass = () => {
             name="Regular"
             value={Regular}
             onChange={(e) => {
-
-              setRegular(e.target.value)
-              setTotal(parseInt(Lateral) + parseInt(Regular))
-            }
-            } />
+              setRegular(e.target.value);
+              setTotal(parseInt(Lateral) + parseInt(e.target.value));
+            }}
+          />
         </div>
         <div className="input-field-container">
           <label className="input-field-label">Regular starting : </label>
@@ -213,11 +212,9 @@ const NewClass = () => {
             name="Regular"
             value={RegularStarting}
             onChange={(e) => {
-
-              setRegularStarting(e.target.value)
-
-            }
-            } />
+              setRegularStarting(e.target.value);
+            }}
+          />
         </div>
         <div className="input-field-container">
           <label className="input-field-label">Lateral starting : </label>
@@ -228,11 +225,9 @@ const NewClass = () => {
             name="Lateral"
             value={LateralStarting}
             onChange={(e) => {
-
-              setLateralStarting(e.target.value)
-
-            }
-            } />
+              setLateralStarting(e.target.value);
+            }}
+          />
         </div>
         <div className="input-field-container">
           <label className="input-field-label">Regular Prefix : </label>
@@ -243,11 +238,9 @@ const NewClass = () => {
             name="Regular prefix"
             value={RegularPrefix}
             onChange={(e) => {
-
-              setRegularPrefix(e.target.value)
-
-            }
-            } />
+              setRegularPrefix(e.target.value);
+            }}
+          />
         </div>
         <div className="input-field-container">
           <label className="input-field-label">Lateral Prefix : </label>
@@ -258,55 +251,10 @@ const NewClass = () => {
             name="Lateral prefix"
             value={LateralPrefix}
             onChange={(e) => {
-
-              setLateralPrefix(e.target.value)
-
-            }
-            } />
+              setLateralPrefix(e.target.value);
+            }}
+          />
         </div>
-        {/* <div className="input-field-container">
-          <label className="input-field-label">Max Row : </label>
-          <input
-            className="input-field number"
-            placeholder="Max row"
-            value={maxRow}
-            type={"number"}
-            onChange={(e) => {
-              setShowDesks(false);
-
-              if (e.target.value <= 20 && !(e.target.value < 0)) {
-                setMaxRow(e.target.value);
-              } else {
-                NotificationManager.warning(
-                  "Value should between 0 to 20 only",
-                  "Warning",
-                  5000
-                );
-              }
-            }}
-          />
-        </div> */}
-        {/* <div className="input-field-container">
-          <label className="input-field-label">Max Column : </label>
-          <input
-            className="input-field number"
-            placeholder="Max col"
-            value={maxColumn}
-            type={"number"}
-            onChange={(e) => {
-              setShowDesks(false);
-              if (e.target.value <= 20 && !(e.target.value < 0))
-                setMaxColumn(e.target.value);
-              else {
-                NotificationManager.warning(
-                  "Value should be less than 20",
-                  "Warning",
-                  5000
-                );
-              }
-            }}
-          />
-        </div> */}
         <div className="button-container">
           <ButtonPrimary
             style={{ borderRadius: 2 }}

@@ -151,9 +151,20 @@ const SeatAllocation = () => {
             }
           }
         }
+
+        for (
+          let i = singleData.lateralStartingRollnumber;
+          i < singleData.lateralStartingRollnumber + singleData.lateral;
+          i++
+        ) {
+          console.log("Hi from the ");
+          console.log(singleData.lateralRollNoPrefix + i);
+          temp.push(singleData.lateralRollNoPrefix + i);
+        }
       }
       setRollNumbers(temp);
     });
+    console.log(count);
 
     setRollNumbers(temp);
 
