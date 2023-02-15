@@ -14,9 +14,7 @@ const Login = () => {
     // setDisabled(false);
 
     const fetchData = async () => {
-      const response = await fetch(
-        `http://localhost:8000/v1/halls/info/${loginDetails.rollNo}`
-      );
+      const response = await fetch(`/v1/halls/info/${loginDetails.rollNo}`);
 
       const json = await response.json();
       console.log(json.data);

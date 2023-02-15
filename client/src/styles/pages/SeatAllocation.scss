@@ -3,11 +3,13 @@
   width: 100%;
   .desk {
     display: inline-block;
-    width: 6rem;
+    width: 10rem;
     height: 7rem;
     text-align: center;
-    margin: rem;
     cursor: pointer;
+
+    border: 1px solid #333;
+    border-collapse: collapse;
   }
 
   .allocated-seat {
@@ -39,5 +41,9 @@
 
   .class-info {
     margin-top: 4rem;
+  }
+
+  .desk-w {
+    border: none !important;
   }
 }

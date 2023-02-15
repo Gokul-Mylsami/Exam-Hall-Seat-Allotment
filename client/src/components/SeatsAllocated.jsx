@@ -31,7 +31,7 @@ const SeatsAllocated = ({
     e.preventDefault();
     console.log("Hi");
     const saveData = removeDuplicates(storeData);
-    const response = await fetch("http://localhost:8000/v1/halls/store", {
+    const response = await fetch("/v1/halls/store", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(saveData),
@@ -60,7 +60,7 @@ const SeatsAllocated = ({
 
   useEffect(() => {
     const fetchHallDetails = async () => {
-      const response = await fetch("http://localhost:8000/v1/halls/all");
+      const response = await fetch("/v1/halls/all");
 
       const json = await response.json();
 
@@ -141,7 +141,12 @@ const SeatsAllocated = ({
 
         for (let j = 0; j < colValue; j++) {
           if (arr[i][j] === 0) {
-            rowDesk.push(<div className="desk"></div>);
+            rowDesk.push(
+              <div className="desk">
+                <p>-</p>
+                <p className="allocated-seat"></p>
+              </div>
+            );
           } else {
             rowDesk.push(
               <div className="desk">
