@@ -5,6 +5,7 @@ const catchAsync = require("../utils/catchAsync");
 const { createOne } = require("./factory.js");
 const ClassModel = require("../model/classModel");
 const storeDataModel = require("../model/storeData");
+const Students = require("../model/storeData");
 exports.getAllHalls = catchAsync(async (req, res, next) => {
   const doc = Halls.find({})
     .populate("halls")
@@ -67,17 +68,15 @@ exports.addHall = catchAsync(async (req, res, next) => {
 });
 exports.getStudentHallInfo = catchAsync(async (req, res, next) => {
   const { rollnumber } = req.params;
-  const query = rollnumber.substring(0, 5);
-  const data = await ClassModel.find({
-    $or: [{ regularRollNoPrefix: query }, { lateralRollNoPrefix: query }],
-  });
+  const data = await Students.find({ rollNo: rollnumber });
+  console.log(data);
   res.json({
     data,
   });
 });
 
 exports.storeHallData = catchAsync(async (req, res, next) => {
-  const data = storeDataModel.create(req.body);
+  const data = Students.create(req.body);
   res.json({
     status: "success",
     data,

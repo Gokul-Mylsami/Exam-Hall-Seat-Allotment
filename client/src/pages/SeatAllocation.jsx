@@ -249,6 +249,8 @@ const SeatAllocation = () => {
             totalSudents={totalStudents}
             session={inputDatas.session}
             subject={inputDatas.subject}
+            name={inputDatas.name}
+            year={inputDatas.year}
           />
         </div>
       ) : (

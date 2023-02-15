@@ -2,15 +2,41 @@ import React, { useEffect, useState } from "react";
 import "./../styles/pages/NewBooking.scss";
 import Loading from "./Loading";
 import ButtonPrimary from "../components/ButtonPrimary";
-
-const SeatsAllocated = ({ halls = [], totalSudents, session, subject }) => {
+import NotificationManager from 'react-notifications'
+const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name }) => {
   let venueBlueprints = [];
   const [hallDetails, setHallDetails] = useState([]);
   const [storeData, setStoreData] = useState([]);
-
-  const saveHandler = (e) => {
+  function removeDuplicates(arr) {
+    let seen = new Set();
+    return arr.filter(item => {
+      const stringified = JSON.stringify(item);
+      if (seen.has(stringified)) {
+        return false;
+      }
+      seen.add(stringified);
+      return true;
+    });
+  }
+  const saveHandler = async (e) => {
     e.preventDefault();
-    console.log(storeData);
+    const saveData = removeDuplicates(storeData)
+    console.log(saveData);
+    const response = await fetch("http://localhost:8000/v1/halls/store", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(saveData),
+    })
+      .then(async (doc) => {
+        let json = await doc.json();
+        console.log(json.dev.error.statusCode);
+        if (json.dev.error.statusCode === 400) {
+          NotificationManager.error("Classroom Already Exist", "Error", 5000);
+        }
+      })
+      .catch((err) => {
+        console.log(err.dev);
+      });
   };
 
   useEffect(() => {
@@ -39,6 +65,7 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject }) => {
                 capacity: singleHall.totalDeskCount,
                 row: singleHall.noOfDeskRow,
                 column: singleHall.noOfDeskColumns,
+
               });
             }
           });
@@ -79,6 +106,8 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject }) => {
             hall: temp.name,
             session: session,
             subject: subject,
+            year: year,
+            name: name,
           });
           startingRollNo++;
 
