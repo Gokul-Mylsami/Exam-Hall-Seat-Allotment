@@ -98,7 +98,7 @@ const SeatsAllocated = ({ halls = [], totalSudents, session, subject, year, name
           }
           arr[j][i] = startingRollNo;
           storeData.push({
-            table: `desk-${j}-${i}`,
+            table: `desk-${j + 1}-${i + 1}`,
             rollNo:
               startingRollNo > 10
                 ? "20CSR0" + startingRollNo
