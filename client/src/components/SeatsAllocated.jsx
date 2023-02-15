@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from "react";
 import "./../styles/pages/NewBooking.scss";
-// import hallDetails from "./../hallModel.json";
 import Loading from "./Loading";
+import ButtonPrimary from "../components/ButtonPrimary";
 
-const SeatsAllocated = ({ halls = [] }) => {
-  let totalSudents = 15;
+const SeatsAllocated = ({ halls = [], totalSudents, session, subject }) => {
   let venueBlueprints = [];
   const [hallDetails, setHallDetails] = useState([]);
+  const [storeData, setStoreData] = useState([]);
+
+  const saveHandler = (e) => {
+    e.preventDefault();
+    console.log(storeData);
+  };
 
   useEffect(() => {
     const fetchHallDetails = async () => {
@@ -15,7 +20,6 @@ const SeatsAllocated = ({ halls = [] }) => {
       const json = await response.json();
 
       setHallDetails(json.data);
-      console.log(json.data);
     };
 
     fetchHallDetails();
@@ -24,7 +28,6 @@ const SeatsAllocated = ({ halls = [] }) => {
   if (halls.length > 0) {
     halls.map((hall) => {
       hallDetails.map((singleHallFullDetail) => {
-        console.log(singleHallFullDetail.department);
         if (hall.department === singleHallFullDetail.department) {
           let avaliableHalls = singleHallFullDetail.halls;
           console.log();
@@ -67,6 +70,16 @@ const SeatsAllocated = ({ halls = [] }) => {
             continue;
           }
           arr[j][i] = startingRollNo;
+          storeData.push({
+            table: `desk-${j}-${i}`,
+            rollNo:
+              startingRollNo > 10
+                ? "20CSR0" + startingRollNo
+                : "20CSR00" + startingRollNo,
+            hall: temp.name,
+            session: session,
+            subject: subject,
+          });
           startingRollNo++;
 
           if (startingRollNo > totalSudents) {
@@ -104,7 +117,20 @@ const SeatsAllocated = ({ halls = [] }) => {
     });
   }
 
-  return <div>{desks}</div>;
+  return (
+    <div>
+      {desks}
+      <div>
+        <ButtonPrimary
+          onClick={(e) => {
+            saveHandler(e);
+          }}
+        >
+          Save
+        </ButtonPrimary>
+      </div>
+    </div>
+  );
 };
 
 export default SeatsAllocated;

@@ -22,7 +22,9 @@ const SeatAllocation = () => {
     year: "",
     name: "",
     subject: "",
+    classes: [],
     department: [],
+    session: "",
     halls: [],
     count: "",
     ccNeeded: false,
@@ -33,6 +35,10 @@ const SeatAllocation = () => {
   const [hallsSelectData, setHallSelectData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hallsDataWithDepartment, setHallDataWithDepartment] = useState([]);
+  const [classList, setClassList] = useState([]);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [classData, setClassData] = useState([]);
+  const [hallCapacity, setHallCapacity] = useState(0);
 
   const selectChangeHandler = (e, name) => {
     setInputaData({ ...inputDatas, [name]: e.value });
@@ -48,6 +54,7 @@ const SeatAllocation = () => {
 
   useEffect(() => {
     const fetchDepartmentData = async () => {
+      setLoading(true);
       const response = await fetch("http://localhost:8000/v1/halls/all");
       const json = await response.json();
 
@@ -64,9 +71,12 @@ const SeatAllocation = () => {
 
       json.data.map((data) => {
         data.halls.map((singleHall) => {
+          let desk = singleHall.noOfDeskRow * singleHall.noOfDeskColumns;
+
           temphallDetails.push({
             department: data.department,
             hall: singleHall.name,
+            capacity: desk,
           });
         });
       });
@@ -74,9 +84,23 @@ const SeatAllocation = () => {
       setHallsUsedDatas(temphallDetails);
     };
 
-    setLoading(true);
+    const fetchClassData = async () => {
+      const response = await fetch("http://localhost:8000/v1/class/all");
+      const json = await response.json();
+
+      let temp = [];
+      setClassData(json.data);
+
+      json.data.map((singleData) => {
+        temp.push({ label: singleData._id, value: singleData._id });
+      });
+
+      setClassList(temp);
+      setLoading(false);
+    };
+
     fetchDepartmentData();
-    setLoading(false);
+    fetchClassData();
   }, []);
 
   useEffect(() => {
@@ -92,12 +116,26 @@ const SeatAllocation = () => {
   }, [inputDatas.department]);
 
   useEffect(() => {
+    let capacity = 0;
     hallsUsedDatas.map((singleData) => {
       if (inputDatas.halls.includes(singleData.hall)) {
+        capacity += singleData.capacity;
         setHallDataWithDepartment([...hallsDataWithDepartment, singleData]);
       }
     });
+    setHallCapacity(capacity);
   }, [inputDatas.halls]);
+
+  useEffect(() => {
+    let count = 0;
+    classData.map((singleData) => {
+      if (inputDatas.classes.includes(singleData._id)) {
+        count += singleData.noOfStudents;
+      }
+    });
+
+    setTotalStudents(count);
+  }, [inputDatas.classes]);
 
   const selectMultipleChangeHandler = (e, name) => {
     let temp = [];
@@ -135,6 +173,14 @@ const SeatAllocation = () => {
             />
           </div>
           <div className="form-input-container">
+            <label className="form-label">Session : </label>
+            <input
+              value={inputDatas.session}
+              name="session"
+              onChange={inputChangeHandler}
+            />
+          </div>
+          <div className="form-input-container">
             <label className="form-label">Subject : </label>
             <input
               value={inputDatas.subject}
@@ -154,6 +200,18 @@ const SeatAllocation = () => {
           <div className="form-input-container">
             <label>CC Needed : </label>
             <input type="checkbox" onChange={checkBoxChangeHandler} />
+          </div>
+          <div className="form-input-container">
+            <label>Classes : </label>
+            <div className="form-select-container">
+              <Select
+                options={classList}
+                isMulti
+                onChange={(e) => {
+                  selectMultipleChangeHandler(e, "classes");
+                }}
+              />
+            </div>
           </div>
           <div className="form-input-container">
             <label>Departments : </label>
@@ -181,8 +239,21 @@ const SeatAllocation = () => {
           </div>
         </form>
       </div>
-
-      <SeatsAllocated halls={hallsDataWithDepartment} />
+      <h1>
+        {totalStudents} Students| {hallCapacity} Hall Capacity
+      </h1>
+      {totalStudents < hallCapacity ? (
+        <div>
+          <SeatsAllocated
+            halls={hallsDataWithDepartment}
+            totalSudents={totalStudents}
+            session={inputDatas.session}
+            subject={inputDatas.subject}
+          />
+        </div>
+      ) : (
+        <p>Hall Capacity must be Higher</p>
+      )}
     </div>
   );
 };
