@@ -168,7 +168,7 @@ const NewClass = () => {
           <input
             type="number"
             className="input-field"
-            placeholder="Eg. IT PARK - CSE 2nd Floor - S12"
+            placeholder="Eg. 15"
             name="Lateral"
             value={Total}
             readOnly={true}
@@ -179,13 +179,13 @@ const NewClass = () => {
           <input
             type="number"
             className="input-field"
-            placeholder="Eg. IT PARK - CSE 2nd Floor - S12"
+            placeholder="Eg. 5"
             name="Lateral"
             value={Lateral}
             onChange={(e) => {
               setLateral(e.target.value);
               console.log("asd", Total, Lateral, Regular);
-              setTotal(parseInt(Lateral) + parseInt(Regular));
+              setTotal(parseInt(e.target.value) + parseInt(Regular));
             }}
           />
         </div>
@@ -194,7 +194,7 @@ const NewClass = () => {
           <input
             type="number"
             className="input-field"
-            placeholder="Eg. IT PARK - CSE 2nd Floor - S12"
+            placeholder="Eg. 10"
             name="Regular"
             value={Regular}
             onChange={(e) => {
@@ -208,7 +208,7 @@ const NewClass = () => {
           <input
             type="number"
             className="input-field"
-            placeholder="Eg. 1,64"
+            placeholder="Eg. 1"
             name="Regular"
             value={RegularStarting}
             onChange={(e) => {
@@ -221,7 +221,7 @@ const NewClass = () => {
           <input
             type="number"
             className="input-field"
-            placeholder="Eg. 247,251"
+            placeholder="Eg. 247"
             name="Lateral"
             value={LateralStarting}
             onChange={(e) => {

@@ -56,7 +56,7 @@ const SeatAllocation = () => {
   useEffect(() => {
     const fetchDepartmentData = async () => {
       setLoading(true);
-      const response = await fetch("http://localhost:8000/v1/halls/all");
+      const response = await fetch("/v1/halls/all");
       const json = await response.json();
 
       //department datas
@@ -86,7 +86,7 @@ const SeatAllocation = () => {
     };
 
     const fetchClassData = async () => {
-      const response = await fetch("http://localhost:8000/v1/class/all");
+      const response = await fetch("/v1/class/all");
       const json = await response.json();
 
       let temp = [];
@@ -129,6 +129,7 @@ const SeatAllocation = () => {
 
   useEffect(() => {
     let count = 0;
+    let notEligleCount = 0;
     let temp = [];
     classData.map((singleData) => {
       if (inputDatas.classes.includes(singleData._id)) {
@@ -157,10 +158,10 @@ const SeatAllocation = () => {
           i < singleData.lateralStartingRollnumber + singleData.lateral;
           i++
         ) {
-          console.log("Hi from the ");
-          console.log(singleData.lateralRollNoPrefix + i);
           temp.push(singleData.lateralRollNoPrefix + i);
         }
+
+        notEligleCount += singleData.notEligible.length;
       }
       setRollNumbers(temp);
     });
@@ -168,7 +169,7 @@ const SeatAllocation = () => {
 
     setRollNumbers(temp);
 
-    setTotalStudents(count);
+    setTotalStudents(count - notEligleCount);
   }, [inputDatas.classes]);
 
   const selectMultipleChangeHandler = (e, name) => {
@@ -272,7 +273,7 @@ const SeatAllocation = () => {
           {totalStudents} Students | {hallCapacity} Hall Capacity
         </h1>
       </div>
-      {totalStudents < hallCapacity ? (
+      {totalStudents <= hallCapacity ? (
         <div>
           <SeatsAllocated
             halls={hallsDataWithDepartment}
