@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import SelectDesks from "../components/SelectDesks";
 import ButtonPrimary from "../components/ButtonPrimary";
-import "./../styles/pages/NewBooking.scss";
+
 import { NotificationManager } from "react-notifications";
 import Select from "react-select";
 

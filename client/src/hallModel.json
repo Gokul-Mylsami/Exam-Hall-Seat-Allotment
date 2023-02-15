@@ -6,14 +6,14 @@
     "halls": [
       {
         "type": "CL",
-        "name": "ITP-S12",
+        "name": "ITP-S17",
         "venue": "IT PARK - CSE 2nd Floor - S12",
         "capacity": {
           "one": 25,
           "two": 50,
           "three": 75
         },
-        "bluprint": {
+        "blueprint": {
           "desk-0-0": true,
           "desk-0-1": true,
           "desk-0-2": false,
