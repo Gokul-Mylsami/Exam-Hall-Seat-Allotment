@@ -11,7 +11,7 @@ const App = () => {
   return (
     <Routes>
       <Route path="/login" element={<Login />} />
-      <Route path="/admin/login" element={<AdminLogin />} />
+
       <Route
         path="/newHall"
         element={
@@ -29,7 +29,7 @@ const App = () => {
         }
       />
       <Route
-        path="/"
+        path="/allocateHall"
         element={
           <Sidebar>
             <SeatAllocation />

@@ -1,6 +1,7 @@
 import React from "react";
 import "./../styles/components/Sidebar.scss";
 import logo from "../assests/logo.png";
+import { Link } from "react-router-dom";
 
 function Sidebar({ children }) {
   return (
@@ -12,19 +13,18 @@ function Sidebar({ children }) {
 
             <ul className="sidebar-nav">
               <li>
-                <a href="#">Hall Management</a>
+                {/* <a href="#">Allocate Hall</a> */}
+                <Link to={"/allocateHall"}>Allocate Hall</Link>
               </li>
               <li>
-                <a href="#">Class Management</a>
+                {/* <a href="#">Add Class</a> */}
+                <Link to={"/newClass"}>Add Class</Link>
               </li>
               <li>
-                <a href="#">Department Management</a>
+                <Link to={"/newHall"}>Add Hall</Link>
+                {/* <a href="#">Add Hall</a> */}
               </li>
             </ul>
-          </div>
-          <div className="sidebar-user">
-            <p className="sidebar-user-name">Admin</p>
-            <p className="sidebar-user-name">Logout </p>
           </div>
         </div>
       </div>

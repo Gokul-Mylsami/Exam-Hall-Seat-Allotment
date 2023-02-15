@@ -170,6 +170,7 @@ const SeatAllocation = () => {
               value={inputDatas.name}
               name="name"
               onChange={inputChangeHandler}
+              className="form-input"
             />
           </div>
           <div className="form-input-container">
@@ -178,6 +179,7 @@ const SeatAllocation = () => {
               value={inputDatas.session}
               name="session"
               onChange={inputChangeHandler}
+              className="form-input"
             />
           </div>
           <div className="form-input-container">
@@ -186,23 +188,15 @@ const SeatAllocation = () => {
               value={inputDatas.subject}
               name="subject"
               onChange={inputChangeHandler}
+              className="form-input"
             />
           </div>
           <div className="form-input-container">
-            <label className="form-label">Count : </label>
-            <input
-              value={inputDatas.count}
-              type="number"
-              name="count"
-              onChange={inputChangeHandler}
-            />
-          </div>
-          <div className="form-input-container">
-            <label>CC Needed : </label>
+            <label className="form-label">CC Needed : </label>
             <input type="checkbox" onChange={checkBoxChangeHandler} />
           </div>
           <div className="form-input-container">
-            <label>Classes : </label>
+            <label className="form-label">Classes : </label>
             <div className="form-select-container">
               <Select
                 options={classList}
@@ -214,7 +208,7 @@ const SeatAllocation = () => {
             </div>
           </div>
           <div className="form-input-container">
-            <label>Departments : </label>
+            <label className="form-label">Departments : </label>
             <div className="form-select-container">
               <Select
                 options={departmentDatas}
@@ -226,7 +220,7 @@ const SeatAllocation = () => {
             </div>
           </div>
           <div className="form-input-container">
-            <label>Halls : </label>
+            <label className="form-label">Halls : </label>
             <div className="form-select-container">
               <Select
                 options={hallsSelectData}
@@ -239,9 +233,11 @@ const SeatAllocation = () => {
           </div>
         </form>
       </div>
-      <h1>
-        {totalStudents} Students| {hallCapacity} Hall Capacity
-      </h1>
+      <div className="class-info">
+        <h1>
+          {totalStudents} Students | {hallCapacity} Hall Capacity
+        </h1>
+      </div>
       {totalStudents < hallCapacity ? (
         <div>
           <SeatsAllocated
