@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  frontend:
+    build: ./client
+    ports:
+      - 3000:3000
+    volumes:
+      - ./client/src:/app/src
+    stdin_open: true
+    tty: true
+
+    depends_on:
+      - backend
+
+  backend:
+    build: ./server
+    ports:
+      - 8000:8000
+    environment:
+      MONGO_URL: mongodb+srv://Gokul:TN33BB3621@cluster0.x8urb.mongodb.net/e-horizon
+      PORT: 8000
+      NODE_ENV: development
+
+    command: ./docker-entrypoint.sh
+
+  # db:
+  #   image: mongo:4.0-xenial
+  #   ports:
+  #     - 27017:27017
+  #   volumes:
+  #     - hallmanagement:/data/db
+
+volumes:
+  hallmanagement:
