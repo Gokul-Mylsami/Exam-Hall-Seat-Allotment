@@ -7,7 +7,7 @@ services:
       - 3000:3000
     volumes:
       - ./client/src:/app/src
-    stdin_open: true
+    stdin_open: true #this 2 lines for interactive terminal
     tty: true
 
     depends_on:
