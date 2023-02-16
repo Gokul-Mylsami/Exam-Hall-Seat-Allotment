@@ -38,7 +38,6 @@ const Login = () => {
 
   return (
     <div id="login-container">
-      {" "}
       <div className="navbar-login">
         <img src={logo} alt="KEC LOGO" className="navbar-logo" />
         <p className="navbar-logo-name">Kongu Engineering College</p>

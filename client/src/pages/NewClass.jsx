@@ -37,7 +37,6 @@ const NewClass = () => {
     setShowDesks(true);
   };
   const saveData = async () => {
-
     const save = {
       noOfStudents: Lateral + Regular,
       lateral: Lateral,
@@ -49,10 +48,8 @@ const NewClass = () => {
       joinedYear: year,
       department: department,
       section: section,
-      notEligible: [
-        14, 23
-      ]
-    }
+      notEligible: [14, 23],
+    };
     console.log([save]);
     const response = await fetch("http://localhost:8000/v1/class/add", {
       method: "POST",
@@ -64,6 +61,8 @@ const NewClass = () => {
         console.log(json.dev.error.statusCode);
         if (json.dev.error.statusCode === 400) {
           NotificationManager.error("Classroom Already Exist", "Error", 5000);
+        } else {
+          NotificationManager.success("Successfully added", "Success", 5000);
         }
       })
       .catch((err) => {
@@ -87,7 +86,8 @@ const NewClass = () => {
     },
   ];
 
-  const submitHandler = () => {
+  const submitHandler = (e) => {
+    e.preventDefault();
     for (let i = 0; i < maxRow; i++) {
       for (let j = 0; j < maxColumn; j++) {
         const tempBlueprint = bluePrint;
