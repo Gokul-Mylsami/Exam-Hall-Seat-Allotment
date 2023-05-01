@@ -8,9 +8,14 @@ process.on("uncaughtException", (err) => {
 
 dotenv.config({ path: "./config.env" });
 
+console.log(
+  `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}:27017/course-goals?authMechanism=DEFAULT`
+);
 mongoose.set("strictQuery", false);
 mongoose
-  .connect(process.env.MONGO_URL)
+  .connect(
+    `mongodb://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@${process.env.MONGODB_URI}:27017/course-goals?authMechanism=DEFAULT`
+  )
   .then(() => {
     console.log("DB connection successful!");
   })
